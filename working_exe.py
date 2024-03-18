@@ -5,7 +5,7 @@ from datetime import date
 import tkinter as tk
 
 def create_file():
-	with open('leaving-history.csv', 'w', newline='') as fise:
+	with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department'])
  
@@ -54,6 +54,26 @@ staffs_lst = [
 
 ]
 
+staffs_lst_2 = [
+('LÊ PHƯƠNG', '070032', 'TEST REQUEST', 'RD'),
+('TRƯƠNG TƯ XUÂN', '080262', 'TEST REQUEST', 'RD'),
+('LÊ THÀNH TAM', '080427', 'B/T', 'RD'),
+('TRƯƠNG THANH TUẤN', '101339', 'TEST REQUEST', 'RD'),
+('PHẠM THỊ PHƯƠNG', '172684', 'TEST REQUEST', 'RD'),
+('NGUYỄN HOÀNG VIỆT', '172759', 'TEST REQUEST', 'RD'),
+('NGUYỄN THỊ HỒNG YẾN', '172824', 'TEST REQUEST', 'RD'),
+('BÙI ĐÌNH HỒNG PHÚC', '193273', 'TEST REQUEST', 'RD'),
+('TRƯƠNG VĂN MINH', '203591', 'TEST REQUEST', 'RD'),
+('NGUYỄN QUANG QUÍ', '203638', 'TEST REQUEST', 'RD'),
+('NGUYỄN THỊ DIỄM MY', '213714', 'TEST REQUEST', 'RD'),
+('LÊ MINH THẮNG', '223906', 'TEST REQUEST', 'RD'),
+('LÊ QUỐC TRUNG', '224016', 'B/T', 'RD'),
+('NGUYỄN TUẤN ANH', '224057', 'TEST REQUEST', 'RD'),
+('TRẦN VĂN LƯU', '234102', 'TEST REQUEST', 'RD'),
+('LÊ HUỲNH ANH KHOA', '234168', 'B/T', 'RD'),
+('NGUYỄN MAI PHƯƠNG', '234170', 'TEST REQUEST', 'RD'),
+('PHẠM NG NGỌC TUYẾT', '234172', 'TEST REQUEST', 'RD'),
+]
 window = tk.Tk()
 window.title("Personal Leaving History")
 window.geometry("400x600")
@@ -68,15 +88,14 @@ def on_leave_btn_click(button_text, button):
 	for i in staffs_lst:
 		update_staff = staff + [button_text[0], button_text[1], '16:30', time, button_text[2], button_text[3], date]
 	print(update_staff)
-	with open('leaving-history.csv', 'a', newline='') as file:
+	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
-		writer.writerow([])
 		writer.writerow(update_staff)
 	# print(button_text)
 	button.configure(state=tk.DISABLED, bg='gray')
 
-for i in staffs_lst:
-	leave_btn = tk.Button(window, text=f'{i[0]}', font=('monospace', 12), width=20,heigh=1, bg='white')
+for i in staffs_lst_2:
+	leave_btn = tk.Button(window, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, bg='white')
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 

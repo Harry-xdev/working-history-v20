@@ -43,14 +43,9 @@ staffs_lst = [
 ]
 
 def create_file():
-	with codecs.open('leaving_history.csv', 'w', 'utf-8') as file:
-		writer = csv.writer(file)
-		writer.writerow([staffs_lst[0][0] , 'leaving_date', 'leaving_time'])
-
-
-def create_file():
-	with open('leaving_history.csv', 'w', newline='') as file:
+	with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department'])
-		
+ 
+
 create_file()
