@@ -45,7 +45,6 @@ staffs_lst = [
 def create_file():
 	with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
-		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department'])
- 
+		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department', 'date'])
 
 create_file()
