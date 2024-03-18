@@ -47,4 +47,13 @@ def create_file():
 		writer = csv.writer(file)
 		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department', 'date'])
 
-create_file()
+def get_name_of_weekday():
+	import datetime
+	current_date = datetime.datetime.now()
+	week_day = current_date.weekday()
+	# week_day_name = datetime.datetime.strftime(current_date, '%A')
+	print(week_day)
+	return week_day
+
+# create_file()
+get_name_of_weekday()

@@ -39,6 +39,34 @@ def get_time():
 	print(time_stamp)
 	return time_stamp
 
+def get_name_of_weekday():
+	import datetime
+	current_date = datetime.datetime.now()
+	# week_day = current_date.weekday()
+	week_day = 6
+	# week_day_name = datetime.datetime.strftime(current_date, '%A')
+	return week_day
+
+def on_leave_btn_click(button_text, button):
+	staff = []
+	date = get_date()
+	time = get_time()
+	for i in staffs_lst_2:
+		start_time = None
+		weekday = get_name_of_weekday()
+		if weekday == 6:
+			start_time = '7:30'
+		else: start_time = '16:30'
+		update_staff = staff + [button_text[0], button_text[1], start_time, time, button_text[2], button_text[3], date]
+	print(update_staff)
+	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
+		writer = csv.writer(file)
+		writer.writerow(update_staff)
+	# print(button_text)
+	button.configure(state=tk.DISABLED, bg='gray')
+
+
+
 staffs_lst = [
 ('LE PHUONG', '070032', 'TEST REQUEST', 'R-D'),
 ('TRUONG TU XUAN', '080262', 'TEST REQUEST', 'R-D'),
@@ -83,30 +111,14 @@ staffs_lst_2 = [
 ]
 
 
-
 root = tk.Tk()
 root.title("Personal Leaving History")
-root.geometry("400x800")
+root.geometry("400x700")
 root.configure(bg='#003039')
 
-export_btn = tk.Button(root, text='Export excel file', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
+export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
 export_btn.pack()
 
-
-
-def on_leave_btn_click(button_text, button):
-	
-	staff = []
-	date = get_date()
-	time = get_time()
-	for i in staffs_lst:
-		update_staff = staff + [button_text[0], button_text[1], '16:30', time, button_text[2], button_text[3], date]
-	print(update_staff)
-	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
-		writer = csv.writer(file)
-		writer.writerow(update_staff)
-	# print(button_text)
-	button.configure(state=tk.DISABLED, bg='gray')
 
 for i in staffs_lst_2:
 	leave_btn = tk.Button(root, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, bg='white')
