@@ -42,8 +42,8 @@ def get_time():
 def get_name_of_weekday():
 	import datetime
 	current_date = datetime.datetime.now()
-	# week_day = current_date.weekday()
-	week_day = 6
+	week_day = current_date.weekday()
+	# week_day = 6
 	# week_day_name = datetime.datetime.strftime(current_date, '%A')
 	return week_day
 
