@@ -26,10 +26,10 @@ def get_time():
 	curr_time = datetime.datetime.now()
 	hour = curr_time.hour
 	minute = curr_time.minute
-	if hour == 16 and (minute < 45 and minute > 15):
+	if hour == 16 and (minute < 45 and minute > 10):
 		hour = 16
 		minute = 30
-	elif hour == 19 and (minute < 45 and minute > 15):
+	elif hour == 19 and (minute < 45 and minute > 10):
 		hour = 19
 		minute = 30
 	time_stamp = str(hour) + ":" + str(minute)
@@ -62,9 +62,48 @@ def on_leave_btn_click(button_text, button):
 	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(update_staff)
-	# print(button_text)
+	print(button_text)
 	button.configure(state=tk.DISABLED, bg='gray')
+	# if button['background'] == 'white':
+	# 	button['background'] = 'grey'
+	# else:
+	# 	button['background'] = 'white'
 
+def open_list_recent_added():
+	subwindow = tk.Toplevel(root)
+	subwindow.title("Recent added")
+	subwindow.geometry("500x700")
+
+	def toggle_button(line, btn):
+		btn.configure(state=tk.DISABLED, bg='grey')
+		lines = []
+		with open('leaving-history.csv', 'r', encoding='utf-8', newline='') as file:
+			reader = csv.reader(file)
+			for row in reader:
+				lines.append(row)
+		for i in lines:
+			if line == i:
+				lines.remove(line)
+				print('Item removed successfully.')
+			else: print("Item not found in the list.")
+
+		with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
+			writer = csv.writer(file)
+			for row in lines:
+				writer.writerow(row)
+
+	with open('leaving-history.csv', 'r', encoding='utf-8') as file:
+		reader = csv.reader(file)
+		lines = list(reader)
+
+	last_20_lines = lines[-20:]
+	for line in last_20_lines:
+		item_lst = tk.Button(subwindow, text=line, width=700, bg='white')
+		item_lst.configure(command=lambda i=line, btn=item_lst: toggle_button(i, btn))
+		item_lst.pack()
+
+	
+	
 
 
 staffs_lst = [
@@ -124,5 +163,10 @@ for i in staffs_lst_2:
 	leave_btn = tk.Button(root, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, bg='white')
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
+
+
+
+open_subwindow = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='white', bg='red' )
+open_subwindow.pack()
 
 root.mainloop()

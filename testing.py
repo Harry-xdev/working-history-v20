@@ -56,4 +56,4 @@ def get_name_of_weekday():
 	return week_day
 
 # create_file()
-get_name_of_weekday()
+# get_name_of_weekday()
