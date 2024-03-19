@@ -12,14 +12,12 @@ def create_file():
 
 def convert_csv_xlsx(file):
 	data = pd.read_csv(file, dtype={1: str})
-	print(data)
 	data.to_excel('work-log.xlsx', index=False)
 	print('Excel exported.')
 
 def get_date():
 	curr_date = date.today()
 	date_str = curr_date.strftime("%d-%m-%Y")
-	print(date_str)
 	return date_str
 
 def get_time():
@@ -33,10 +31,7 @@ def get_time():
 		hour = 19
 		minute = 30
 	time_stamp = str(hour) + ":" + str(minute)
-	print(type(hour))
-	print(hour)
-	print(minute)
-	print(time_stamp)
+	# print(time_stamp)
 	return time_stamp
 
 def get_name_of_weekday():
@@ -62,7 +57,6 @@ def on_leave_btn_click(button_text, button):
 	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(update_staff)
-	print(button_text)
 	button.configure(state=tk.DISABLED, bg='gray')
 	# if button['background'] == 'white':
 	# 	button['background'] = 'grey'
@@ -85,7 +79,6 @@ def open_list_recent_added():
 			if line == i:
 				lines.remove(line)
 				print('Item removed successfully.')
-			else: print("Item not found in the list.")
 
 		with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
 			writer = csv.writer(file)
