@@ -12,8 +12,9 @@ def create_file():
 
 def convert_csv_xlsx(file):
 	data = pd.read_csv(file, dtype={1: str})
-	data.to_excel('work-log.xlsx', index=False)
-	print('Excel exported.')
+	# data.to_excel('work-log.xlsx', index=False)
+	data.to_excel(r'Y:\4. R&D\Report\CAR SAMPLE\CHECK-IN\work-log.xlsx', index=False)
+	print("Excel exported.")
 
 def get_date():
 	curr_date = date.today()
@@ -46,13 +47,12 @@ def on_leave_btn_click(button_text, button):
 	staff = []
 	date = get_date()
 	time = get_time()
-	for i in staffs_lst_2:
-		start_time = None
-		weekday = get_name_of_weekday()
-		if weekday == 6:
-			start_time = '7:30'
-		else: start_time = '16:30'
-		update_staff = staff + [button_text[0], button_text[1], start_time, time, button_text[2], button_text[3], date]
+	start_time = None
+	weekday = get_name_of_weekday()
+	if weekday == 6:
+		start_time = '7:30'
+	else: start_time = '16:30'
+	update_staff = staff + [button_text[0], button_text[1], start_time, time, button_text[2], button_text[3], date]
 	print(update_staff)
 	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
@@ -94,10 +94,6 @@ def open_list_recent_added():
 		item_lst = tk.Button(subwindow, text=line, width=700, bg='white')
 		item_lst.configure(command=lambda i=line, btn=item_lst: toggle_button(i, btn))
 		item_lst.pack()
-
-	
-	
-
 
 staffs_lst = [
 ('LE PHUONG', '070032', 'TEST REQUEST', 'R-D'),
@@ -142,14 +138,12 @@ staffs_lst_2 = [
 ('PHẠM NG NGỌC TUYẾT', '234172', 'TEST REQUEST', 'RD'),
 ]
 
-
+convert_csv_xlsx('leaving-history.csv')
 root = tk.Tk()
 root.title("Personal Leaving History")
 root.geometry("400x700")
 root.configure(bg='#003039')
 
-export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
-export_btn.pack()
 
 
 for i in staffs_lst_2:
@@ -157,9 +151,11 @@ for i in staffs_lst_2:
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 
-
-
 open_subwindow = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='white', bg='red' )
 open_subwindow.pack()
+export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
+export_btn.pack()
 
 root.mainloop()
+
+convert_csv_xlsx('leaving-history.csv')

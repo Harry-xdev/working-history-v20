@@ -1,11 +1,9 @@
-data = [['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department', 'date'],
-        ['NGUYỄN QUANG QUÍ', '203638', '16:30', '14:29', 'TEST REQUEST', 'RD', '19-03-2024'],
-        ['LÊ MINH THẮNG', '223906', '16:30', '14:29', 'TEST REQUEST', 'RD', '19-03-2024'],
-        ['LÊ HUỲNH ANH KHOA', '234168', '16:30', '14:46', 'B/T', 'RD', '19-03-2024'],
-        ['LÊ QUỐC TRUNG', '224016', '16:30', '14:46', 'B/T', 'RD', '19-03-2024'],
-        ['LÊ MINH THẮNG', '223906', '16:30', '14:46', 'TEST REQUEST', 'RD', '19-03-2024'],
-        ['NGUYỄN HOÀNG VIỆT', '172759', '16:30', '15:3', 'TEST REQUEST', 'RD', '19-03-2024']]
+import pandas as pd
 
-data.remove(['NGUYỄN QUANG QUÍ', '203638', '16:30', '14:29', 'TEST REQUEST', 'RD', '19-03-2024'])
 
-print(data)
+def convert_csv_xlsx(file):
+	data = pd.read_csv(file, dtype={1: str})
+	data.to_excel(r'Y:\4. R&D\Report\CAR SAMPLE\Tuan Anh file\log\work-log.xlsx', index=False)
+	print('Excel exported.')
+
+convert_csv_xlsx('leaving-history.csv')
