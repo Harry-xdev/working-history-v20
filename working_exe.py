@@ -13,8 +13,8 @@ def create_file():
 def convert_csv_xlsx(file):
 	data = pd.read_csv(file, dtype={1: str})
 	# data.to_excel('work-log.xlsx', index=False)
-	data.to_excel(r'Y:\4. R&D\Report\CAR SAMPLE\CHECK-IN\work-log.xlsx', index=False)
-	print("Excel exported.")
+	data.to_excel(r'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx', index=False)
+	print("Excel exported to'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx'")
 
 def get_date():
 	curr_date = date.today()
@@ -155,7 +155,8 @@ open_subwindow = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=op
 open_subwindow.pack()
 export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
 export_btn.pack()
-
+excel_directory = tk.Label(root, text='Excel file exported at Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN')
+excel_directory.pack()
 root.mainloop()
 
 convert_csv_xlsx('leaving-history.csv')
