@@ -2,8 +2,50 @@ import csv
 import datetime
 from datetime import date
 import pandas as pd
-
+import sys
 import tkinter as tk
+
+staffs_lst = [
+('LE PHUONG', '070032', 'TEST REQUEST', 'R-D'),
+('TRUONG TU XUAN', '080262', 'TEST REQUEST', 'R-D'),
+('TRUONG THANH TAM', '080427', 'B/T', 'R-D'),
+('LE THANH TUAN', '101339', 'TEST REQUEST', 'R-D'),
+('PHAM THI HUONG', '172684', 'TEST REQUEST', 'R-D'),
+('NGUYEN HOANG VIET', '172759', 'TEST REQUEST', 'R-D'),
+('NGUYEN THI HONG YEN', '172824', 'TEST REQUEST', 'R-D'),
+('BUI DINH PHUC', '193273', 'TEST REQUEST', 'R-D'),
+('TTRUONG VAN MINH', '203591', 'TEST REQUEST', 'R-D'),
+('NGUYEN QUANG QUI', '203638', 'TEST REQUEST', 'R-D'),
+('NGUYEN THI DIEM MY', '213714', 'TEST REQUEST', 'R-D'),
+('LE MINH THANG', '223906', 'TEST REQUEST', 'R-D'),
+('LE QUOC TRUNG', '224016', 'B/T', 'R-D'),
+('NGUYEN TUAN ANH', '224057', 'TEST REQUEST', 'R-D'),
+('TRAN VAN LUU', '234102', 'TEST REQUEST', 'R-D'),
+('LE HUYNH ANH KHOA', '234168', 'B/T', 'R-D'),
+('NGUYEN MAI PHUONG', '234170', 'TEST REQUEST', 'R-D'),
+('PHAM NG NGOC TUYET', '234172', 'TEST REQUEST', 'R-D'),
+
+]
+staffs_lst_2 = [
+('LÊ PHƯƠNG', '070032', 'TEST REQUEST', 'RD'),
+('TRƯƠNG TƯ XUÂN', '080262', 'TEST REQUEST', 'RD'),
+('TRƯƠNG THÀNH TAM', '080427', 'B/T', 'RD'),
+('LÊ THANH TUẤN', '101339', 'TEST REQUEST', 'RD'),
+('PHẠM THỊ PHƯƠNG', '172684', 'TEST REQUEST', 'RD'),
+('NGUYỄN HOÀNG VIỆT', '172759', 'TEST REQUEST', 'RD'),
+('NGUYỄN THỊ HỒNG YẾN', '172824', 'TEST REQUEST', 'RD'),
+('BÙI ĐÌNH HỒNG PHÚC', '193273', 'TEST REQUEST', 'RD'),
+('TRƯƠNG VĂN MINH', '203591', 'TEST REQUEST', 'RD'),
+('NGUYỄN QUANG QUÍ', '203638', 'TEST REQUEST', 'RD'),
+('NGUYỄN THỊ DIỄM MY', '213714', 'TEST REQUEST', 'RD'),
+('LÊ MINH THẮNG', '223906', 'TEST REQUEST', 'RD'),
+('LÊ QUỐC TRUNG', '224016', 'B/T', 'RD'),
+('NGUYỄN TUẤN ANH', '224057', 'TEST REQUEST', 'RD'),
+('TRẦN VĂN LƯU', '234102', 'TEST REQUEST', 'RD'),
+('LÊ HUỲNH ANH KHOA', '234168', 'B/T', 'RD'),
+('NGUYỄN MAI PHƯƠNG', '234170', 'TEST REQUEST', 'RD'),
+('PHẠM NG NGỌC TUYẾT', '234172', 'TEST REQUEST', 'RD'),
+]
 
 def create_file():
 	with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
@@ -53,11 +95,12 @@ def on_leave_btn_click(button_text, button):
 		start_time = '7:30'
 	else: start_time = '16:30'
 	update_staff = staff + [button_text[0], button_text[1], start_time, time, button_text[2], button_text[3], date]
-	print(update_staff)
+	# print(update_staff)
 	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(update_staff)
 	button.configure(state=tk.DISABLED, bg='gray')
+	display.write(f"{update_staff[0]} [{update_staff[1]}] {time}\n")
 	# if button['background'] == 'white':
 	# 	button['background'] = 'grey'
 	# else:
@@ -95,68 +138,37 @@ def open_list_recent_added():
 		item_lst.configure(command=lambda i=line, btn=item_lst: toggle_button(i, btn))
 		item_lst.pack()
 
-staffs_lst = [
-('LE PHUONG', '070032', 'TEST REQUEST', 'R-D'),
-('TRUONG TU XUAN', '080262', 'TEST REQUEST', 'R-D'),
-('TRUONG THANH TAM', '080427', 'B/T', 'R-D'),
-('LE THANH TUAN', '101339', 'TEST REQUEST', 'R-D'),
-('PHAM THI HUONG', '172684', 'TEST REQUEST', 'R-D'),
-('NGUYEN HOANG VIET', '172759', 'TEST REQUEST', 'R-D'),
-('NGUYEN THI HONG YEN', '172824', 'TEST REQUEST', 'R-D'),
-('BUI DINH PHUC', '193273', 'TEST REQUEST', 'R-D'),
-('TTRUONG VAN MINH', '203591', 'TEST REQUEST', 'R-D'),
-('NGUYEN QUANG QUI', '203638', 'TEST REQUEST', 'R-D'),
-('NGUYEN THI DIEM MY', '213714', 'TEST REQUEST', 'R-D'),
-('LE MINH THANG', '223906', 'TEST REQUEST', 'R-D'),
-('LE QUOC TRUNG', '224016', 'B/T', 'R-D'),
-('NGUYEN TUAN ANH', '224057', 'TEST REQUEST', 'R-D'),
-('TRAN VAN LUU', '234102', 'TEST REQUEST', 'R-D'),
-('LE HUYNH ANH KHOA', '234168', 'B/T', 'R-D'),
-('NGUYEN MAI PHUONG', '234170', 'TEST REQUEST', 'R-D'),
-('PHAM NG NGOC TUYET', '234172', 'TEST REQUEST', 'R-D'),
-
-]
-
-staffs_lst_2 = [
-('LÊ PHƯƠNG', '070032', 'TEST REQUEST', 'RD'),
-('TRƯƠNG TƯ XUÂN', '080262', 'TEST REQUEST', 'RD'),
-('TRƯƠNG THÀNH TAM', '080427', 'B/T', 'RD'),
-('LÊ THANH TUẤN', '101339', 'TEST REQUEST', 'RD'),
-('PHẠM THỊ PHƯƠNG', '172684', 'TEST REQUEST', 'RD'),
-('NGUYỄN HOÀNG VIỆT', '172759', 'TEST REQUEST', 'RD'),
-('NGUYỄN THỊ HỒNG YẾN', '172824', 'TEST REQUEST', 'RD'),
-('BÙI ĐÌNH HỒNG PHÚC', '193273', 'TEST REQUEST', 'RD'),
-('TRƯƠNG VĂN MINH', '203591', 'TEST REQUEST', 'RD'),
-('NGUYỄN QUANG QUÍ', '203638', 'TEST REQUEST', 'RD'),
-('NGUYỄN THỊ DIỄM MY', '213714', 'TEST REQUEST', 'RD'),
-('LÊ MINH THẮNG', '223906', 'TEST REQUEST', 'RD'),
-('LÊ QUỐC TRUNG', '224016', 'B/T', 'RD'),
-('NGUYỄN TUẤN ANH', '224057', 'TEST REQUEST', 'RD'),
-('TRẦN VĂN LƯU', '234102', 'TEST REQUEST', 'RD'),
-('LÊ HUỲNH ANH KHOA', '234168', 'B/T', 'RD'),
-('NGUYỄN MAI PHƯƠNG', '234170', 'TEST REQUEST', 'RD'),
-('PHẠM NG NGỌC TUYẾT', '234172', 'TEST REQUEST', 'RD'),
-]
+class ConsoleOutput(tk.Text):
+	def write(self, message):
+		self.insert(tk.END, message)
+		self.see(tk.END)
 
 convert_csv_xlsx('leaving-history.csv')
 root = tk.Tk()
 root.title("Personal Leaving History")
-root.geometry("400x700")
+root.geometry("545x700")
 root.configure(bg='#003039')
 
+display = ConsoleOutput(root, height=10, width=45)
+display.place(x=0, y=0)
+sys.stdout = display
 
-
+button_container = tk.Frame(root)
+button_container.place(x=350, y=0)
 for i in staffs_lst_2:
-	leave_btn = tk.Button(root, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, bg='white')
+	leave_btn = tk.Button(button_container, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, bg='white')
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 
-open_subwindow = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='white', bg='red' )
-open_subwindow.pack()
-export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
-export_btn.pack()
-excel_directory = tk.Label(root, text='Excel file exported at Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN')
-excel_directory.pack()
-root.mainloop()
+edit_btn = tk.Button(button_container, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='white', bg='red', width=26, height=1 )
+edit_btn.pack()
 
+tools_container = tk.Frame(root)
+tools_container.place(x=0, y=200)
+export_btn = tk.Button(tools_container, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
+export_btn.pack()
+excel_directory = tk.Label(tools_container, text='Excel file exported at Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN')
+excel_directory.pack()
+
+root.mainloop()
 convert_csv_xlsx('leaving-history.csv')

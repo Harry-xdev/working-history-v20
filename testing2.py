@@ -1,9 +1,24 @@
-import pandas as pd
+import tkinter as tk
+import sys
 
+class ConsoleOutput(tk.Text):
+    def write(self, message):
+        self.insert(tk.END, message)
+        self.see(tk.END)
 
-def convert_csv_xlsx(file):
-	data = pd.read_csv(file, dtype={1: str})
-	data.to_excel(r'Y:\4. R&D\Report\CAR SAMPLE\Tuan Anh file\log\work-log.xlsx', index=False)
-	print('Excel exported.')
+def button_click():
+    # Perform some action
+    output_text.write("Button clicked\n")
 
-# convert_csv_xlsx('leaving-history.csv')
+root = tk.Tk()
+
+output_text = ConsoleOutput(root, height=10, width=40)
+output_text.pack()
+output_text.configure(state="disabled")
+
+sys.stdout = output_text
+
+button = tk.Button(root, text="Click me", command=button_click)
+button.pack()
+
+root.mainloop()
