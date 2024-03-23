@@ -4,6 +4,7 @@ from datetime import date
 import pandas as pd
 import sys
 import tkinter as tk
+import os
 
 staffs_lst = [
 ('LE PHUONG', '070032', 'TEST REQUEST', 'R-D'),
@@ -55,8 +56,14 @@ def create_file():
 def convert_csv_xlsx(file):
 	data = pd.read_csv(file, dtype={1: str})
 	# data.to_excel('work-log.xlsx', index=False)
-	data.to_excel(r'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx', index=False)
-	print("Excel exported to'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx'")
+	storage_path = 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx'
+	if os.path.exists(storage_path):
+		data.to_excel(r'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx', index=False)
+		print("Excel exported to'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx'")
+	else:
+		print('Storage destination unavailable, excel file changed save to root folder.')
+		data.to_excel('overtime-log.xlsx', index=False)
+		
 
 def get_date():
 	curr_date = date.today()
@@ -143,10 +150,13 @@ class ConsoleOutput(tk.Text):
 		self.insert(tk.END, message)
 		self.see(tk.END)
 
+def set_normal_state_btn(button):
+	button.configure(state=tk.NORMAL)
+
 convert_csv_xlsx('leaving-history.csv')
 root = tk.Tk()
 root.title("Personal Leaving History")
-root.geometry("545x700")
+root.geometry("545x600")
 root.configure(bg='#003039')
 
 display = ConsoleOutput(root, height=10, width=45)
@@ -160,15 +170,18 @@ for i in staffs_lst_2:
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 
-edit_btn = tk.Button(button_container, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='white', bg='red', width=26, height=1 )
+edit_btn = tk.Button(button_container, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='black', bg='red', width=13, height=1 )
 edit_btn.pack()
 
 tools_container = tk.Frame(root)
 tools_container.place(x=0, y=200)
-export_btn = tk.Button(tools_container, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
-export_btn.pack()
-excel_directory = tk.Label(tools_container, text='Excel file exported at Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN')
-excel_directory.pack()
+export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
+export_btn.place(x=0, y=140)
+excel_directory = tk.Label(root, text='Excel file exported at Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN')
+excel_directory.place(x=60, y=580)
+
+refesh_btn = tk.Button(root, text='Reresh', command=lambda: set_normal_state_btn())
+refesh_btn.place(x=0, y=175 )
 
 root.mainloop()
 convert_csv_xlsx('leaving-history.csv')
