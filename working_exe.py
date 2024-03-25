@@ -1,9 +1,9 @@
 """
 MyApp - A Professional Technology Application
-Author: [Your Name]
-Date: [Current Date]
+Author: Tuan Anh
+Date: 03/25/2024
 
-This application is the property of [Your Name]. All rights reserved.
+This application is the property of Tuan Anh. All rights reserved.
 """
 import csv
 import datetime
@@ -13,27 +13,7 @@ import sys
 import tkinter as tk
 import os
 
-staffs_lst = [
-('LE PHUONG', '070032', 'TEST REQUEST', 'R-D'),
-('TRUONG TU XUAN', '080262', 'TEST REQUEST', 'R-D'),
-('TRUONG THANH TAM', '080427', 'B/T', 'R-D'),
-('LE THANH TUAN', '101339', 'TEST REQUEST', 'R-D'),
-('PHAM THI HUONG', '172684', 'TEST REQUEST', 'R-D'),
-('NGUYEN HOANG VIET', '172759', 'TEST REQUEST', 'R-D'),
-('NGUYEN THI HONG YEN', '172824', 'TEST REQUEST', 'R-D'),
-('BUI DINH PHUC', '193273', 'TEST REQUEST', 'R-D'),
-('TTRUONG VAN MINH', '203591', 'TEST REQUEST', 'R-D'),
-('NGUYEN QUANG QUI', '203638', 'TEST REQUEST', 'R-D'),
-('NGUYEN THI DIEM MY', '213714', 'TEST REQUEST', 'R-D'),
-('LE MINH THANG', '223906', 'TEST REQUEST', 'R-D'),
-('LE QUOC TRUNG', '224016', 'B/T', 'R-D'),
-('NGUYEN TUAN ANH', '224057', 'TEST REQUEST', 'R-D'),
-('TRAN VAN LUU', '234102', 'TEST REQUEST', 'R-D'),
-('LE HUYNH ANH KHOA', '234168', 'B/T', 'R-D'),
-('NGUYEN MAI PHUONG', '234170', 'TEST REQUEST', 'R-D'),
-('PHAM NG NGOC TUYET', '234172', 'TEST REQUEST', 'R-D'),
 
-]
 staffs_lst_2 = [
 ('LÊ PHƯƠNG', '070032', 'TEST REQUEST', 'RD'),
 ('TRƯƠNG TƯ XUÂN', '080262', 'TEST REQUEST', 'RD'),
@@ -112,12 +92,12 @@ def on_leave_btn_click(button_text, button):
 		start_time = '7:30'
 	else: start_time = '16:30'
 	update_staff = staff + [button_text[0], button_text[1], start_time, time, button_text[2], button_text[3], date]
-	# print(update_staff)
+	print(update_staff)
 	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(update_staff)
 	button.configure(state=tk.DISABLED, bg='gray')
-	display.write(f"{update_staff[0]} [{update_staff[1]}] {time}\n")
+	# display.write(f"{update_staff[0]} [{update_staff[1]}] {time}\n")
 	# if button['background'] == 'white':
 	# 	button['background'] = 'grey'
 	# else:
@@ -156,9 +136,11 @@ def open_list_recent_added():
 		item_lst.pack()
 
 class ConsoleOutput(tk.Text):
+
 	def write(self, message):
 		self.insert(tk.END, message)
 		self.see(tk.END)
+
 
 def set_normal_state_btn():
 	for btn in btn_container_1.winfo_children():
@@ -172,12 +154,12 @@ def set_normal_state_btn():
 convert_csv_xlsx('leaving-history.csv')
 root = tk.Tk()
 root.title("Personal Leaving History")
-# root.geometry("380x600")
+root.geometry("380x600")
 root.configure(bg='#003039')
 
-display = ConsoleOutput(root, bg='black',fg='#55f210', height=10, width=47)
-display.place(x=0, y=0)
-sys.stdout = display
+# display = ConsoleOutput(root, bg='black',fg='#55f210', height=10, width=47)
+# display.place(x=0, y=0)
+# sys.stdout = display
 
 btn_container_1 = tk.Frame(root)
 btn_container_1.place(x=0, y=250)
@@ -193,20 +175,20 @@ for i in staffs_lst_2[9:]:
 	leave_btn.pack()
 
 edit_btn = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='#a52a2a', width=15, height=1 )
-edit_btn.place(x=180, y=205)
+edit_btn.place(x=102, y=205)
 
 tools_container = tk.Frame(root)
 tools_container.place(x=0, y=200)
 export_btn = tk.Button(root, text='Export excel file', width=13, fg='#a52a2a', command=lambda: convert_csv_xlsx('leaving-history.csv'))
 export_btn.place(x=0, y=170)
 
-open_folder_btn = tk.Button(root, text='Open...', command=lambda: open_export_folder())
-open_folder_btn.place(x=100, y=170)
+open_folder_btn = tk.Button(root, text='Open file location...', command=lambda: open_export_folder())
+open_folder_btn.place(x=102, y=170)
 
 refesh_btn = tk.Button(root, text='Refesh all button', width=13, command=lambda: set_normal_state_btn())
 refesh_btn.place(x=0, y=205)
 
-excel_directory = tk.Label(root, text='Check-in tool - Author: Tuan Anh - Date: 03-25-2024-All rights reserved')
+excel_directory = tk.Label(root, text='Check-in tool - Author: Tuan Anh - Date: 03-25-2024-All rights reserved', fg='#55f210', bg='black')
 excel_directory.place(x=0, y=580)
 
 
