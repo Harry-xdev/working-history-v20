@@ -1,3 +1,10 @@
+"""
+MyApp - A Professional Technology Application
+Author: [Your Name]
+Date: [Current Date]
+
+This application is the property of [Your Name]. All rights reserved.
+"""
 import csv
 import datetime
 from datetime import date
@@ -63,7 +70,10 @@ def convert_csv_xlsx(file):
 	else:
 		print('Storage destination unavailable, excel file changed save to root folder.')
 		data.to_excel('overtime-log.xlsx', index=False)
-		
+
+def open_export_folder():
+	export_path = 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN'
+	os.startfile(export_path)
 
 def get_date():
 	curr_date = date.today()
@@ -150,38 +160,57 @@ class ConsoleOutput(tk.Text):
 		self.insert(tk.END, message)
 		self.see(tk.END)
 
-def set_normal_state_btn(button):
-	button.configure(state=tk.NORMAL)
+def set_normal_state_btn():
+	for btn in btn_container_1.winfo_children():
+		btn.configure(state=tk.NORMAL)
+		btn.configure(bg='white')
+	for btn in btn_container_2.winfo_children():
+		btn.configure(state=tk.NORMAL)
+		btn.configure(bg='white')
+
 
 convert_csv_xlsx('leaving-history.csv')
 root = tk.Tk()
 root.title("Personal Leaving History")
-root.geometry("545x600")
+# root.geometry("380x600")
 root.configure(bg='#003039')
 
-display = ConsoleOutput(root, height=10, width=45)
+display = ConsoleOutput(root, bg='black',fg='#55f210', height=10, width=47)
 display.place(x=0, y=0)
 sys.stdout = display
 
-button_container = tk.Frame(root)
-button_container.place(x=350, y=0)
-for i in staffs_lst_2:
-	leave_btn = tk.Button(button_container, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, bg='white')
+btn_container_1 = tk.Frame(root)
+btn_container_1.place(x=0, y=250)
+for i in staffs_lst_2[:9]:
+	leave_btn = tk.Button(btn_container_1, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1)
+	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
+	leave_btn.pack()
+btn_container_2 = tk.Frame(root)
+btn_container_2.place(x=190, y=250)
+for i in staffs_lst_2[9:]:
+	leave_btn = tk.Button(btn_container_2, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1)
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 
-edit_btn = tk.Button(button_container, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='black', bg='red', width=13, height=1 )
-edit_btn.pack()
+edit_btn = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='#a52a2a', width=15, height=1 )
+edit_btn.place(x=180, y=205)
 
 tools_container = tk.Frame(root)
 tools_container.place(x=0, y=200)
-export_btn = tk.Button(root, text='Export excel file', fg='#a52a2a', font='Arial', command=lambda: convert_csv_xlsx('leaving-history.csv'))
-export_btn.place(x=0, y=140)
-excel_directory = tk.Label(root, text='Excel file exported at Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN')
-excel_directory.place(x=60, y=580)
+export_btn = tk.Button(root, text='Export excel file', width=13, fg='#a52a2a', command=lambda: convert_csv_xlsx('leaving-history.csv'))
+export_btn.place(x=0, y=170)
 
-refesh_btn = tk.Button(root, text='Reresh', command=lambda: set_normal_state_btn())
-refesh_btn.place(x=0, y=175 )
+open_folder_btn = tk.Button(root, text='Open...', command=lambda: open_export_folder())
+open_folder_btn.place(x=100, y=170)
+
+refesh_btn = tk.Button(root, text='Refesh all button', width=13, command=lambda: set_normal_state_btn())
+refesh_btn.place(x=0, y=205)
+
+excel_directory = tk.Label(root, text='Check-in tool - Author: Tuan Anh - Date: 03-25-2024-All rights reserved')
+excel_directory.place(x=0, y=580)
+
+
+
 
 root.mainloop()
 convert_csv_xlsx('leaving-history.csv')
