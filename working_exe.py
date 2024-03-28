@@ -41,6 +41,7 @@ def create_file():
 		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department', 'date'])
 
 def convert_csv_xlsx(file):
+	update_display("EXCEL FILE EXPORTED TO 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/'", '')
 	data = pd.read_csv(file, dtype={1: str})
 	# data.to_excel('work-log.xlsx', index=False)
 	storage_path = 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx'
@@ -92,10 +93,12 @@ def on_leave_btn_click(button_text, button):
 		start_time = '7:30'
 	else: start_time = '16:30'
 	update_staff = staff + [button_text[0], button_text[1], start_time, time, button_text[2], button_text[3], date]
-	print(update_staff)
+
 	with open('leaving-history.csv', 'a', encoding='utf-8', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(update_staff)
+
+	update_display(button_text[1] + ' ' + button_text[0] + ' ' + f'[{start_time}]' + ' ' + f'[{time}]' + ' ' + date, f'YOU GO TO HOME AT {time}!')
 	button.configure(state=tk.DISABLED, bg='gray')
 	# display.write(f"{update_staff[0]} [{update_staff[1]}] {time}\n")
 	# if button['background'] == 'white':
@@ -135,11 +138,20 @@ def open_list_recent_added():
 		item_lst.configure(command=lambda i=line, btn=item_lst: toggle_button(i, btn))
 		item_lst.pack()
 
-class ConsoleOutput(tk.Text):
+def update_display(data1, data2):
+	global line1
+	line1 = data1
+	line2 = data2
+	display_line1.config(text=line1)
+	display_line2.config(text=line2)
+	root.update()
 
-	def write(self, message):
-		self.insert(tk.END, message)
-		self.see(tk.END)
+def update_clock():
+	global time
+	current_time = datetime.datetime.now()
+	time = current_time.strftime("%H:%M:%S")
+	clock.config(text=time)
+	clock.after(100, update_clock)
 
 
 def set_normal_state_btn():
@@ -149,50 +161,59 @@ def set_normal_state_btn():
 	for btn in btn_container_2.winfo_children():
 		btn.configure(state=tk.NORMAL)
 		btn.configure(bg='white')
+	update_display('All BUTTONS ACTIVED!', '')
 
-
-convert_csv_xlsx('leaving-history.csv')
 root = tk.Tk()
-root.title("Personal Leaving History")
+root.title("PERSONAL LEAVING HISTORY")
 root.geometry("380x600")
-root.configure(bg='#003039')
+root.configure(bg='white')
 
-# display = ConsoleOutput(root, bg='black',fg='#55f210', height=10, width=47)
-# display.place(x=0, y=0)
-# sys.stdout = display
+status = "Application running"
+display_line1 = tk.Label(root, text= status, height=2, width=380, bg='black', fg='#55f210')
+display_line1.pack()
+display_line2 = tk.Label(root, text= 'Please choose your name for check out!', height=2, width=380, bg='black', fg='#55f210')
+display_line2.pack()
+
+datetime_fr = tk.Frame(root, bg='white')
+datetime_fr.pack()
+clock_info = 'Time'	
+clock = tk.Label(datetime_fr, text=clock_info, fg='black', font=('Cascadia Code', 35), width=14, height=1, bg='white')
+clock.pack()
+update_clock()
+global current_date
+current = datetime.datetime.now().date()
+calender = tk.Label(datetime_fr, text=current, font=('Cascadia Code', 15), width=18, fg='grey', bg='white')
+calender.pack()
+
 
 btn_container_1 = tk.Frame(root)
 btn_container_1.place(x=0, y=250)
 for i in staffs_lst_2[:9]:
-	leave_btn = tk.Button(btn_container_1, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1)
+	leave_btn = tk.Button(btn_container_1, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, fg='black')
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 btn_container_2 = tk.Frame(root)
 btn_container_2.place(x=190, y=250)
 for i in staffs_lst_2[9:]:
-	leave_btn = tk.Button(btn_container_2, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1)
+	leave_btn = tk.Button(btn_container_2, text=f'{i[0]}', font=('Times new roman', 12), width=20,heigh=1, fg='black')
 	leave_btn.configure(command=lambda i=i, btn=leave_btn: on_leave_btn_click(i, btn))
 	leave_btn.pack()
 
-edit_btn = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='#a52a2a', width=15, height=1 )
-edit_btn.place(x=102, y=205)
+edit_btn = tk.Button(root, text='Chỉnh sửa (xoá mục)', command=open_list_recent_added, fg='#a52a2a', width=16, height=1 )
+edit_btn.place(x=102, y=207)
 
-tools_container = tk.Frame(root)
-tools_container.place(x=0, y=200)
 export_btn = tk.Button(root, text='Export excel file', width=13, fg='#a52a2a', command=lambda: convert_csv_xlsx('leaving-history.csv'))
-export_btn.place(x=0, y=170)
+export_btn.place(x=0, y=180)
 
-open_folder_btn = tk.Button(root, text='Open file location...', command=lambda: open_export_folder())
-open_folder_btn.place(x=102, y=170)
+open_folder_btn = tk.Button(root, text='Open excel location...', width=16, command=lambda: open_export_folder())
+open_folder_btn.place(x=102, y=180)
 
 refesh_btn = tk.Button(root, text='Refesh all button', width=13, command=lambda: set_normal_state_btn())
-refesh_btn.place(x=0, y=205)
+refesh_btn.place(x=0, y=207)
 
-excel_directory = tk.Label(root, text='Check-in tool - Author: Tuan Anh - Date: 03-25-2024-All rights reserved', fg='#55f210', bg='black')
-excel_directory.place(x=0, y=580)
+info = tk.Label(root, text='Check-in tool - Author: Tuan Anh - Date: 03-25-2024-All rights reserved', fg='#55f210', bg='black')
+info.place(x=0, y=580)
 
-
-
-
+convert_csv_xlsx('leaving-history.csv')
 root.mainloop()
 convert_csv_xlsx('leaving-history.csv')

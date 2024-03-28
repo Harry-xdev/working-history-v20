@@ -1,7 +1,7 @@
-space_range = []
-for space in range (0, 700):
-	if space % 50 == 0:
-		space_range.append(space)
+import tkinter as tk
+from tkinter import font
 
-print(space_range)
-# leave_btn.pack()
+root = tk.Tk()
+font_families = font.families()
+print(font_families)
+root.destroy()
