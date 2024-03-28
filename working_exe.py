@@ -36,12 +36,19 @@ staffs_lst_2 = [
 ]
 
 def create_file():
-	with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
-		writer = csv.writer(file)
-		writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department', 'date'])
+	filename = 'leaving_history'
+	folder = os.getcwd()
+	file_path = os.path.join(filename, folder)
+	if not os.path.exists(file_path):
+		with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
+			writer = csv.writer(file)
+			writer.writerow(['staff_name', 'id', 'start_time', 'leaving_time', 'reason', 'department', 'date'])
+		print('Csv file created.')
+	else: pass
+create_file()
 
 def convert_csv_xlsx(file):
-	update_display("EXCEL FILE EXPORTED TO 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/'", '')
+	# update_display("EXCEL FILE EXPORTED TO 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/'", '')
 	data = pd.read_csv(file, dtype={1: str})
 	# data.to_excel('work-log.xlsx', index=False)
 	storage_path = 'Y:/4. R&D/Report/CAR SAMPLE/CHECK-IN/overtime-log.xlsx'
