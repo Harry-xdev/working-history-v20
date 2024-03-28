@@ -38,7 +38,8 @@ staffs_lst_2 = [
 def create_file():
 	filename = 'leaving-history.csv'
 	folder = os.getcwd()
-	file_path = os.path.join(filename, folder)
+	file_path = os.path.join(folder, filename)
+	print(file_path)
 	if not os.path.exists(file_path):
 		with open('leaving-history.csv', 'w', encoding='utf-8', newline='') as file:
 			writer = csv.writer(file)
