@@ -36,7 +36,7 @@ staffs_lst_2 = [
 ]
 
 def create_file():
-	filename = 'leaving_history'
+	filename = 'leaving-history.csv'
 	folder = os.getcwd()
 	file_path = os.path.join(filename, folder)
 	if not os.path.exists(file_path):
